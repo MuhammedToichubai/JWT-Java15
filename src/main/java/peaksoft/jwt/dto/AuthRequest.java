@@ -1,4 +1,4 @@
 package peaksoft.jwt.dto;
 
-public class AuthRequest {
+public record AuthRequest (String login, String password) {
 }

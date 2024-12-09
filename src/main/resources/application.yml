@@ -1,1 +1,21 @@
-spring.application.name=JWT-Java15
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: postgres
+    url: jdbc:postgresql://localhost:5454/java15
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+  security:
+    jwt:
+      secret: peaksoft-java15-2024
+      access-token-validity-in-seconds: 86400  # 1 day
+      refresh-token-validity-in-seconds: 604800 # 1 week
+server:
+  port: 8080
+  error:
+    include-message: always
+

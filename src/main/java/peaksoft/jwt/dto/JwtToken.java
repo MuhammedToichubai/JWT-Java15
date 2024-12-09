@@ -1,4 +1,9 @@
 package peaksoft.jwt.dto;
 
-public record JwtToken() {
+import java.time.Instant;
+
+public record JwtToken(String accessToken, String refreshToken, Instant issueDate) {
 }
+
+
+

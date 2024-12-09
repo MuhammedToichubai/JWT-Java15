@@ -1,0 +1,44 @@
+###
+POST http://localhost:8080/api/auth/sign-up
+Content-Type: application/json
+
+{
+  "email": "elchibek@gmail.com",
+  "name": "Elchibek",
+  "password": "elchibek123"
+
+}
+
+<> 2024-12-08T190804.200.json
+<> 2024-12-08T185204.200.json
+
+###
+POST http://localhost:8080/api/auth/sign-up
+Content-Type: application/json
+
+{
+  "name": "Mukhammed",
+  "email": "mukhammed@gmail.com",
+  "password": "atai123"
+}
+
+<> 2024-12-08T185102.200.json
+
+
+###
+GET http://localhost:8080/api/users
+
+<> 2024-12-08T190808.200.json
+<> 2024-12-08T190751.200.json
+
+
+
+###
+GET http://localhost:8080/api/auth/sign-in
+Content-Type: application/json
+
+{
+  "login": "adilet@gmail.com",
+  "password": "adilet123"
+
+}
