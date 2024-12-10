@@ -1,13 +1,47 @@
 package peaksoft.jwt.config.jwt;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import peaksoft.jwt.dto.JwtToken;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import peaksoft.jwt.models.User;
+import peaksoft.jwt.repo.UserRepo;
 
-public interface JwtService {
+import java.time.ZonedDateTime;
 
-    JwtToken generateToken(User user);
+@Component
+@RequiredArgsConstructor
+public class JwtService {
+    @Value("${app.security.jwt.secret_key}")
+    private String secretKey;
+    private final UserRepo userRepo;
 
+    // create token // generate
+    public String createToken(User user) {
+        ZonedDateTime zonedDateTime = ZonedDateTime.now();
+        return JWT.create()
+                .withClaim("email", user.getEmail())
+                .withClaim("name", user.getName())
+                .withClaim("id", user.getId())
+                .withClaim("role", user.getRole().getAuthority())
+                .withIssuedAt(zonedDateTime.toInstant())
+                .withExpiresAt(zonedDateTime.plusDays(7).toInstant())
+                .sign(getAlgorithm());
+    }
 
-    DecodedJWT validateToken(String token);
+    // verify token // validate
+    public User verifyToken(String token) {
+        Algorithm algorithm = getAlgorithm();
+        JWTVerifier jwtVerifier = JWT.require(algorithm).build();
+        DecodedJWT verify = jwtVerifier.verify(token);
+        String email = verify.getClaim("email").asString();
+        return userRepo.findUserByEmailEqualsIgnoreCase(email);
+    }
+
+    public Algorithm getAlgorithm() {
+        return Algorithm.HMAC512(secretKey);
+    }
 }

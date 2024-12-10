@@ -2,10 +2,10 @@ package peaksoft.jwt.apis;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import peaksoft.jwt.dto.AuthRequest;
-import peaksoft.jwt.dto.AuthResponse;
-import peaksoft.jwt.dto.JwtToken;
-import peaksoft.jwt.dto.UserRequest;
+import peaksoft.jwt.dto.request.AuthRequest;
+import peaksoft.jwt.dto.response.AuthResponse;
+import peaksoft.jwt.dto.response.JwtTokenResponse;
+import peaksoft.jwt.dto.request.UserRequest;
 import peaksoft.jwt.service.AuthService;
 
 @RestController
@@ -20,7 +20,7 @@ public class AuthAPI {
     }
 
     @GetMapping("/sign-in")
-    public JwtToken signIn(@RequestBody AuthRequest authRequest){
+    public JwtTokenResponse signIn(@RequestBody AuthRequest authRequest){
         return authService.sigIn(authRequest);
     }
 
