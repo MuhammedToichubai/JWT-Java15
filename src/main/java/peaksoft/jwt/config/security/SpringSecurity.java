@@ -55,6 +55,4 @@ public class SpringSecurity {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
 }
