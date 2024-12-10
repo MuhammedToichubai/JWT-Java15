@@ -17,9 +17,9 @@ POST http://localhost:8080/api/auth/sign-up
 Content-Type: application/json
 
 {
-  "name": "Mukhammed",
-  "email": "mukhammed@gmail.com",
-  "password": "atai123"
+  "name": "Aizhan",
+  "email": "aizhan@gmail.com",
+  "password": "aizhan123"
 }
 
 <> 2024-12-08T185102.200.json

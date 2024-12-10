@@ -9,13 +9,14 @@ spring:
     hibernate:
       ddl-auto: validate
     show-sql: true
-  security:
-    jwt:
-      secret: peaksoft-java15-2024
-      access-token-validity-in-seconds: 86400  # 1 day
-      refresh-token-validity-in-seconds: 604800 # 1 week
+
 server:
   port: 8080
   error:
     include-message: always
 
+app:
+  security:
+    jwt:
+      secret_key: java15-jwt-token-skdjfksljdflksjearsdkfjksdjfskldjfsl
+      expiration: 604800

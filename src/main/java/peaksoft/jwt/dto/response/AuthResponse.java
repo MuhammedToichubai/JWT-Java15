@@ -1,4 +1,4 @@
-package peaksoft.jwt.dto;
+package peaksoft.jwt.dto.response;
 
 
 import lombok.Builder;
@@ -9,5 +9,5 @@ public record AuthResponse(
         Long userId,
         String email,
         Role role,
-        JwtToken token
+        JwtTokenResponse token
 ) {}

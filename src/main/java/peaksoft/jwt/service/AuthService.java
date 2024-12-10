@@ -1,12 +1,12 @@
 package peaksoft.jwt.service;
 
-import peaksoft.jwt.dto.AuthRequest;
-import peaksoft.jwt.dto.AuthResponse;
-import peaksoft.jwt.dto.JwtToken;
-import peaksoft.jwt.dto.UserRequest;
+import peaksoft.jwt.dto.request.AuthRequest;
+import peaksoft.jwt.dto.response.AuthResponse;
+import peaksoft.jwt.dto.response.JwtTokenResponse;
+import peaksoft.jwt.dto.request.UserRequest;
 
 public interface AuthService {
     AuthResponse signUp(UserRequest userRequest);
 
-    JwtToken sigIn(AuthRequest authRequest);
+    JwtTokenResponse sigIn(AuthRequest authRequest);
 }
