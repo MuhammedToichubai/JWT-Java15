@@ -7,6 +7,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import peaksoft.jwt.dto.response.JwtTokenResponse;
 import peaksoft.jwt.models.User;
 import peaksoft.jwt.repo.UserRepo;
 
@@ -17,19 +18,24 @@ import java.time.ZonedDateTime;
 public class JwtService {
     @Value("${app.security.jwt.secret_key}")
     private String secretKey;
+    @Value("${app.security.jwt.expiration}")
+    private Long expiration;
     private final UserRepo userRepo;
 
     // create token // generate
-    public String createToken(User user) {
+    public JwtTokenResponse createToken(User user) {
         ZonedDateTime zonedDateTime = ZonedDateTime.now();
-        return JWT.create()
+
+        String token = JWT.create()
                 .withClaim("email", user.getEmail())
                 .withClaim("name", user.getName())
                 .withClaim("id", user.getId())
                 .withClaim("role", user.getRole().getAuthority())
                 .withIssuedAt(zonedDateTime.toInstant())
-                .withExpiresAt(zonedDateTime.plusDays(7).toInstant())
+                .withExpiresAt(zonedDateTime.plusSeconds(expiration).toInstant())
                 .sign(getAlgorithm());
+
+      return  new JwtTokenResponse(token, zonedDateTime, zonedDateTime.plusSeconds(expiration));
     }
 
     // verify token // validate

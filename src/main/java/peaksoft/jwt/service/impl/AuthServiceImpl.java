@@ -8,10 +8,15 @@ import peaksoft.jwt.dto.request.AuthRequest;
 import peaksoft.jwt.dto.response.AuthResponse;
 import peaksoft.jwt.dto.response.JwtTokenResponse;
 import peaksoft.jwt.dto.request.UserRequest;
+import peaksoft.jwt.exceptions.NotFoundException;
+import peaksoft.jwt.exceptions.PasswordInvalidException;
 import peaksoft.jwt.models.Role;
 import peaksoft.jwt.models.User;
 import peaksoft.jwt.repo.UserRepo;
 import peaksoft.jwt.service.AuthService;
+
+import javax.security.auth.login.CredentialException;
+import java.rmi.NotBoundException;
 
 @Service
 @RequiredArgsConstructor
@@ -32,19 +37,14 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(encodePassword);
 
         User savedUser = userRepo.save(user);
-
-        String token = jwtService.createToken(savedUser);
-
-        JwtTokenResponse.builder()
-                .accessToken(token)
-                .issueDate()
-                .build();
+        JwtTokenResponse jwtTokenResponse = jwtService.createToken(savedUser);
 
         return AuthResponse
                 .builder()
                 .userId(savedUser.getId())
                 .email(savedUser.getEmail())
                 .role(savedUser.getRole())
+                .token(jwtTokenResponse)
                 .build();
     }
 
@@ -52,7 +52,12 @@ public class AuthServiceImpl implements AuthService {
     public JwtTokenResponse sigIn(AuthRequest authRequest) {
         User user = userRepo.findUserByEmailEqualsIgnoreCase(authRequest.login());
 
-        return JwtTokenResponse.builder().build();
+        if (user == null) throw new NotFoundException("User with email "+authRequest.login()+" not found");
+
+        boolean matches = passwordEncoder.matches(authRequest.password(), user.getPassword());
+        if (!matches) throw new PasswordInvalidException("Password incorrect!");
+
+        return jwtService.createToken(user);
 
     }
 

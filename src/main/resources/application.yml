@@ -19,3 +19,4 @@ app:
   security:
     jwt:
       secret_key: java15-jwt-token-skdjfksljdflksjearsdkfjksdjfskldjfsl
+      expiration: 604800
